@@ -1,18 +1,25 @@
 //Crear funcion verifica si eres mayor de edad o no
-const persona = {
+const persona = [{
     year:1999
-};
+},{
+    year:1998 
+},{
+    year:2005
+},{
+    year:2010
+}];
 
-function calcularEdad(ano){
+function calcularEdad(){
+    const years = Object.values(persona).map(sub=>sub.year)
     const today = new Date();
-    for (i=0; i < ano.leng; i++) {
-        let edad = today.getFullYear() - ano
-        if (edad>18){
-            console.log(edad);
+    
+    years.forEach(element => {
+        let edad = today.getFullYear() - element;
+        if (edad>=18){
+            console.log("Tienes "+edad+" años, eres mayor de edad");
         }else{
-            console.log("Tienes "+edad+" aún eres menor de edad");
+            console.log("Tienes "+edad+" años, aún eres menor de edad");
         }
-    }
-
+    });
 }
-calcularEdad(1999, 1998);
+calcularEdad();

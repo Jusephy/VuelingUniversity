@@ -2,42 +2,19 @@
 //si es un número primo
 
 function numPrimo(num){
-    while(esprimo<11){
-        let esprimo=0;
-        let arr=[];
-        let primo;
 
+    for(let i =2; i<num; i++){
         if(num<=1){
             console.log(num+" No es primo");
+            return false;
         }
-        for(let i =2; i<num; i++){
-            if (num%i===0){
-                primo=false;
-                //console.log(num+" No es primo");
-            }
-        }
-        if(primo==true){
-            esprimo++;
-            arr.push(num);
-            console.log(num+" Es primo");
-        }else{
+        else if (num%i===0){
             console.log(num+" No es primo");
+            return false;
+            //console.log(num+" No es primo");
         }
-        console.log(arr);
     }
+    console.log(num+" Es primo");
+    return true;
 }
-numPrimo();
-
-//Calcular los primeros 10 numeros primos y
-// mostrarlos por pantalla en una lista (array)
-let contador=0;
-let arr =[];
-let num=2;
-while(lista.length<10){
-    if(primo){
-
-    }
-}
-/*while(contador<11){
-    
-}*/
+numPrimo(8);
