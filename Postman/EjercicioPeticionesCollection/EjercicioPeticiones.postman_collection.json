@@ -1,0 +1,1826 @@
+{
+	"info": {
+		"_postman_id": "42bda8f4-c3bc-4e4e-9e3a-f84a8e171cd7",
+		"name": "EjercicioPeticiones",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27581475"
+	},
+	"item": [
+		{
+			"name": "Pokemons",
+			"item": [
+				{
+					"name": "GET_ALLPokemon",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}{{user}}",
+							"host": [
+								"{{base_url}}{{user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_Pikachu",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"validateOK200(pm);\r",
+									"\r",
+									"pm.test(\"Test to validate pokemon name\", function(){\r",
+									"     const jsonData = pm.response.json();\r",
+									"     pm.expect(jsonData.name).to.eql(\"pikachu\");\r",
+									"});\r",
+									"//validatePokemonsIsCorrect(pm, pm.environment.get(\"pokemon_name\"))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}{{user}}pikachu",
+							"host": [
+								"{{base_url}}{{user}}pikachu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_PokemonsByID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"validateOK200(pm);\r",
+									"\r",
+									"pm.test(\"Test to validate pokemon name\", function(){\r",
+									"     const jsonData = pm.response.json();\r",
+									"     pm.expect(jsonData.name).to.eql(\"misdreavus\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}{{user}}200",
+							"host": [
+								"{{base_url}}{{user}}200"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_GenerationOne",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let bodyData=JSON.parse(responseBody);\r",
+									"console.log(responseBody);\r",
+									"//showPokemons = bodyData.pokemon_species;\r",
+									"//console.log(\"list pokemons = \"+showPokemons[0].name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}generation/1",
+							"host": [
+								"{{base_url}}generation"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtainMovementInfo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData=JSON.parse(responseBody);\r",
+									"pm.test(\"Get the correct movement name\",function(){\r",
+									"    validateOK200(pm);\r",
+									"    let typeMovement = jsonData.type.name;\r",
+									"    pm.expect(jsonData.name).to.eql(\"double-slap\");\r",
+									"    pm.expect(typeMovement).to.eql(\"normal\");\r",
+									"    console.log(jsonData.name);\r",
+									"    console.log(typeMovement);\r",
+									"});\r",
+									"pm.test(\"Get the correct movement name\",validateMoveAndType(pm.response, pm.variables.get(\"type\")));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"validateMoveAndType= function(movement, type){\r",
+									"    //let jsonData=JSON.parse(responseBody);\r",
+									"    let jsonData=pm.response.json();\r",
+									"    const typeMovement = data.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"double-slap\");\r",
+									"    pm.expect(typeMovement).to.eql(\"normal\");\r",
+									"    //console.log(jsonData);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}move/3",
+							"host": [
+								"{{base_url}}move"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAbility",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"getCorrectName = function(json){\r",
+									"        pm.expect(json.name).to.eql(\"bulbasaur\");\r",
+									"        console.log(json.name)\r",
+									"}\r",
+									"getCorrectAbility = function(ability){\r",
+									"        pm.expect(ability).to.eql(\"overgrow\");\r",
+									"        console.log(ability)\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData=JSON.parse(responseBody);\r",
+									"let ability = jsonData.abilities[0].ability.name;\r",
+									"\r",
+									"validateOK200(pm);\r",
+									"pm.test(\"Correct Name\", getCorrectName(jsonData));\r",
+									"pm.test(\"Correct Ability\", getCorrectAbility(ability));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}{{user}}bulbasaur/",
+							"host": [
+								"{{base_url}}{{user}}bulbasaur"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPokemonFaster",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//forEach pokemon id, get stats, make another loop of the stats and if the stat.name ==\"speed\"\r",
+									"//get base_stat and \r",
+									"let dataJson=JSON.parse(responseBody);\r",
+									"\r",
+									"console.log(dataJson.stats);\r",
+									"console.log(dataJson.stats[5]);\r",
+									"//pm.response.stats[5].base_stat;\r",
+									"console.log(dataJson.stats[5].base_stat);\r",
+									"console.log(dataJson.stats[5].stat.name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{base_url}}{{user}}1/",
+							"host": [
+								"{{base_url}}{{user}}1"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NumberMovementsPokemon",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let lowerThan=90;\r",
+									"let equalThan=83;\r",
+									"let higerThan=80;\r",
+									"verifyLower = function(array){\r",
+									"    pm.expect(arrayOfObject.length).to.below(lowerThan);\r",
+									"}\r",
+									"verifyHigher = function(array){\r",
+									"    pm.expect(arrayOfObject.length).to.above(higerThan);\r",
+									"}\r",
+									"verifyEqual = function(array){\r",
+									"    pm.expect(arrayOfObject.length).to.eql(equalThan);\r",
+									"\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let dataJson=JSON.parse(responseBody);\r",
+									"let movements = dataJson.moves;\r",
+									"arrayOfObject = movements;\r",
+									"\r",
+									"pm.test(\"Number of movements are equal \"+pm.variables.get(\"equalThan\"), verifyEqual())\r",
+									"pm.test(\"Mayor que \"+pm.variables.get(\"higherThan\"), verifyHigher())\r",
+									"pm.test(\"Menor que \"+pm.variables.get(\"lowerThan\"), verifyLower())\r",
+									"\r",
+									"console.log(arrayOfObject.length);\r",
+									"console.log(dataJson.moves);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}{{user}}1/",
+							"host": [
+								"{{base_url}}{{user}}1"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPokemonTypes",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let lowerThan=90;\r",
+									"/*verifyLower = function(array){\r",
+									"    pm.expect(arrayOfObject.length).to.below(lowerThan);\r",
+									"}*/"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//let dataJson=JSON.parse(responseBody);\r",
+									"let dataJson=pm.response.json();\r",
+									"console.log(dataJson);\r",
+									"let pokemonId = pm.collectionVariables.get(\"pokeId\")\r",
+									"console.log(pokemonId);\r",
+									"//let mapValues = dataJson.map(typeID=>pokemonId);\r",
+									"//let  requesttt = pm.sendRequest({ method: 'GET', url: type.url });\r",
+									"\r",
+									"//pm.test(\"Menor que \"+pm.variables.get(\"lowerThan\"), verifyLower())\r",
+									"//console.log(arrayOfObject.length);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}type/",
+							"host": [
+								"{{base_url}}type"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CheckHiddenAbility",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let dataJson=JSON.parse(responseBody);\r",
+									"let abilities=dataJson.abilities;\r",
+									"\r",
+									"console.log(\"pokemon_url\")\r",
+									"for (let i = 0; i < dataJson.results.length; i++) {\r",
+									"    let typeURL = pm.environment.get(\"pokemon_url\") + i;\r",
+									"    console.log(\"rrrrr\",typeURL);\r",
+									"    pm.sendRequest({ method: 'GET', url: typeURL }, function (err) {\r",
+									"        if (err) {\r",
+									"            console.error(err);\r",
+									"        } else {\r",
+									"            let requestDataJson=JSON.parse(responseBody);\r",
+									"            const responseBody = requestDataJson;\r",
+									"            console.log(responseBody);\r",
+									"            pm.expect(responseBody.pokemon.length).to.be.greaterThan(50);\r",
+									"        }\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"for (let i = 0; i < abilities.length; i++) {\r",
+									"    if(abilities[i].is_hidden===true){\r",
+									"        console.log(dataJson.name);\r",
+									"        console.log(abilities[i].ability.name);\r",
+									"    }\r",
+									"}\r",
+									"console.log(abilities);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}{{user}}",
+							"host": [
+								"{{base_url}}{{user}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"higherThan\", 80);",
+							"pm.collectionVariables.set(\"lowerThan\", 90);",
+							"pm.collectionVariables.set(\"equalThan\", 83);"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"validatePokemonIsCorrect = function(pm, nombre){",
+							"    const dataJson = pm.respones.json();",
+							"    ",
+							"}",
+							"",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "InfoUsers",
+			"item": [
+				{
+					"name": "GET_PAGE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}{{page}}",
+							"host": [
+								"{{base_url}}{{page}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_USER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"validateOK200(pm);\r",
+									"\r",
+									"pm.test(\"Validate if id its equal\",function(){\r",
+									"    const jsonData= JSON.parse(responseBody);\r",
+									"    //const jsonData = pm.response.json();\r",
+									"    let idToVerify=jsonData.data.id;\r",
+									"    console.log(idToVerify);\r",
+									"    pm.expect(idToVerify).to.eql(2);\r",
+									"});\r",
+									"//pm.expect(idToVerify).is.to.equal(9);\r",
+									"    \r",
+									"\r",
+									"    "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/?id=2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2",
+									"description": "usuario con id 2, Janet"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUser",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"validateOK201(pm);\r",
+									"let dataJson = JSON.parse(responseBody)\r",
+									"pm.test(\"The user created have the correct name\",function(){\r",
+									"    console.log(dataJson);\r",
+									"    pm.test(\"Test to validate id created\", function(){\r",
+									"        if(dataJson.id != null){\r",
+									"            console.log(\"ID created: \" + dataJson.id);\r",
+									"            pm.expect(dataJson.name).to.eql(\"jusephy\");\r",
+									"        }else{\r",
+									"            console.log(\"Failed to create User\");\r",
+									"        };\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Job is different\", function(){\r",
+									"    //this should fail\r",
+									"    //this pm.expect is make it for check if fails\r",
+									"    if(pm.expect(dataJson.job).to.eql(\"employee\")){\r",
+									"        console.log(\"Jobs user is diferent, is:\" + dataJson.job);\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"jusephy\",\r\n    \"job\": \"leader\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/?name=jusephy&id=999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "jusephy"
+								},
+								{
+									"key": "id",
+									"value": "999"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE_USER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let dataJson = JSON.parse(responseBody);\r",
+									"pm.test(\"User uptdated correctly\", function(){\r",
+									"    pm.expect(dataJson.name).to.eql(\"juan\");\r",
+									"    pm.expect(dataJson.job).to.eql(\"boss manager\");\r",
+									"    console.log(dataJson.name, dataJson.job);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"juan\",\r\n    \"job\": \"boss manager\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/?id=2&name=juanchho",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								},
+								{
+									"key": "name",
+									"value": "juanchho"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"validateOK200 = function (pm) { pm.test(\"Usuarios creados, Status code is 200\", function () { pm.response.to.have.status(200); }); }",
+							"",
+							"validateOK201 = function (pm) { pm.test(\"Usuario Creado, Status 201\", function () { pm.response.to.have.status(201); }); }"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "JsonPlaceHolder",
+			"item": [
+				{
+					"name": "GET_USERS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData= JSON.parse(responseBody);\r",
+									"let idToVerify=jsonData[8][\"id\"];\r",
+									"\r",
+									"pm.test(\"This GET includes user with id: 9\",function(){\r",
+									"    /*const dataJson = pm.response.json();\r",
+									"    const getMap = dataJson.map(user => user.id);*/\r",
+									"    console.log(idToVerify);\r",
+									"    pm.expect(idToVerify).is.to.equal(9);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}users",
+							"host": [
+								"{{base_url}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_SpecificUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData= JSON.parse(responseBody);\r",
+									"let nameToVerify=jsonData[0].name;\r",
+									"\r",
+									"pm.test(\"Get the correct user\",function(){\r",
+									"    /*const dataJson = pm.response.json();\r",
+									"    const getMap = dataJson.map(user => user.id);*/\r",
+									"    pm.expect(nameToVerify).is.to.equal(\"Glenna Reichert\");\r",
+									"    console.log(\"Name is correct: \"+nameToVerify);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}users/?email=Chaim_McDermott@dana.io",
+							"host": [
+								"{{base_url}}users"
+							],
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Chelsey Dietrich",
+									"description": "get by name",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "2",
+									"description": "get by id",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "Chaim_McDermott@dana.io",
+									"description": "get by email"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT_UpdateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"validateOK200(pm);\r",
+									"let dataJson = JSON.parse(responseBody);\r",
+									"pm.test(\"Check if id is correct\",function(){\r",
+									"    console.log(dataJson);\r",
+									"    pm.expect(dataJson.id).to.eql(4)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"cr7\",\r\n    \"job\": \"futbolista\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}posts/3",
+							"host": [
+								"{{base_url}}posts"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trello",
+			"item": [
+				{
+					"name": "GET_Emojis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/emoji",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"emoji"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST_Card",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}1/cards?idList={{listDone}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{base_url}}1"
+							],
+							"path": [
+								"cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{listDone}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_Card",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let dataJson= JSON.parse(responseBody);\r",
+									"console.log(dataJson);\r",
+									"pm.test(\"El id es\", function(){\r",
+									"    pm.expect(dataJson.name).is.eql(\"mich\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}1/cards/{{cardMicha}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{base_url}}1"
+							],
+							"path": [
+								"cards",
+								"{{cardMicha}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE_Card",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}1/cards/{{cardTestApi}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{base_url}}1"
+							],
+							"path": [
+								"cards",
+								"{{cardTestApi}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_Card",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "POST_List",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get_List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}1/lists/{{listDone}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{base_url}}1"
+							],
+							"path": [
+								"lists",
+								"{{listDone}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE_List",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_List",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Regresion_Exercice",
+			"item": [
+				{
+					"name": "TC1(Crear \"Tarjetas\" en un Tablero)",
+					"item": [
+						{
+							"name": "Precondicion(Lista \"ToDo\" debe estar disponible)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = JSON.parse(responseBody)\r",
+											"pm.test(\"Precondicion-> la lista 'ToDo' debe estar disponible\",function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Precondicion-> la lista debe tener el nombre 'ToDo'\",function(){\r",
+											"    pm.expect(dataJson.name).to.eql(\"ToDo\")\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{GET_List}}/:id?key={{key}}&token={{token}}",
+									"host": [
+										"{{GET_List}}"
+									],
+									"path": [
+										":id"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{listToDo}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Precondicion(Lista \"In Progress\" debe estar disponible) Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = JSON.parse(responseBody)\r",
+											"pm.test(\"Precondicion-> la lista 'In Progress' debe estar disponible\",function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Precondicion-> la lista debe tener el nombre 'In Progress'\",function(){\r",
+											"    pm.expect(dataJson.name).to.eql(\"In Progress\")\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{GET_List}}/:id?key={{key}}&token={{token}}",
+									"host": [
+										"{{GET_List}}"
+									],
+									"path": [
+										":id"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{listInProgress}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Precondicion(Lista \"Done\" debe estar disponible) Copy 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = JSON.parse(responseBody)\r",
+											"pm.test(\"Precondicion-> la lista 'Done' debe estar disponible\",function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Precondicion-> la lista debe tener el nombre 'Done'\",function(){\r",
+											"    pm.expect(dataJson.name).to.eql(\"Done\")\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{GET_List}}/:id?key={{key}}&token={{token}}",
+									"host": [
+										"{{GET_List}}"
+									],
+									"path": [
+										":id"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{listDone}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar creación Tarjeta 1 en la Lista del tablero, como primera tarjeta de la lista",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verificar que se haya creado la tarjeta en la lista ToDo\",function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"    pm.expect(dataJson.idList).to.eql(pm.environment.get(\"listToDo\"))\r",
+											"})\r",
+											"\r",
+											"pm.collectionVariables.set(\"idTarjeta\",dataJson.id);\r",
+											"\r",
+											"pm.test(\"Verificar que el nombre de la tarjeta sea el ingreasdo anteriormente\",function(){\r",
+											"    pm.expect(dataJson.name).to.eql(pm.collectionVariables.get(\"card1Name\"))\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{POST_Card}}?idList={{listToDo}}&name={{card1Name}}&key={{key}}&token={{token}}",
+									"host": [
+										"{{POST_Card}}"
+									],
+									"query": [
+										{
+											"key": "idList",
+											"value": "{{listToDo}}"
+										},
+										{
+											"key": "name",
+											"value": "{{card1Name}}"
+										},
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar creación Tarjeta 2 en la Lista del tablero, como segunda tarjeta de la lista, situada debajo de la primera",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verificar que se haya creado la tarjeta en la lista ToDo\",function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"    pm.expect(dataJson.idList).to.eql(pm.environment.get(\"listToDo\"))\r",
+											"})\r",
+											"\r",
+											"pm.collectionVariables.set(\"idTarjeta2\",dataJson.id);\r",
+											"\r",
+											"pm.test(\"Verificar que el nombre de la tarjeta sea el ingreasdo anteriormente\",function(){\r",
+											"    pm.expect(dataJson.name).to.eql(pm.collectionVariables.get(\"card2Name\"))\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{POST_Card}}?idList={{listToDo}}&name={{card2Name}}&key={{key}}&token={{token}}",
+									"host": [
+										"{{POST_Card}}"
+									],
+									"query": [
+										{
+											"key": "idList",
+											"value": "{{listToDo}}"
+										},
+										{
+											"key": "name",
+											"value": "{{card2Name}}"
+										},
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TC2(Modificar \"Tarjetas\" de un tablero)",
+					"item": [
+						{
+							"name": "Verificar que se pueden modificar los campos de una Tarjeta",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const newCardName = pm.variables.replaceIn(\"{{$randomCity}}\")\r",
+											"pm.collectionVariables.set(\"cardNewName\", newCardName)\r",
+											"\r",
+											"const newCardDesc = pm.variables.replaceIn(\"{{$randomPhrase}}\")\r",
+											"pm.collectionVariables.set(\"cardNewDesc\",newCardDesc)\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = JSON.parse(responseBody)\r",
+											"const cardNewName = pm.collectionVariables.get(\"cardNewName\")\r",
+											"const cardNewDesc = pm.collectionVariables.get(\"cardNewDesc\")\r",
+											"const newLabel = pm.collectionVariables.get(\"labelDEV\")\r",
+											"const newLabel2 = pm.collectionVariables.get(\"labelQA\")\r",
+											"\r",
+											"pm.test(\"Nombre de la tarjeta debería estar modificado\",function(){\r",
+											"    pm.expect(dataJson.name).to.eql(cardNewName)\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Descripción de la Tarjeta se debería modificar\", function(){\r",
+											"    pm.expect(dataJson.desc).to.eql(cardNewDesc)\r",
+											"})\r",
+											"\r",
+											"pm.test(\"La Tarjeta debería tener una nueva etiqueta llamada 'DEV'\", function(){\r",
+											"    pm.expect(dataJson.idLabels[0]).to.eql(newLabel)\r",
+											"})\r",
+											"\r",
+											"pm.test(\"La Tarjeta debería tener una nueva etiqueta llamada 'QA'\", function(){\r",
+											"    pm.sendRequest()\r",
+											"    pm.expect(dataJson.idLabels[1]).to.eql(newLabel2)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{PUT_Card}}/:id?name={{cardNewName}}&desc={{cardNewDesc}}&idLabels={{labelDEV}}&key={{key}}&token={{token}}",
+									"host": [
+										"{{PUT_Card}}"
+									],
+									"path": [
+										":id"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "{{cardNewName}}"
+										},
+										{
+											"key": "desc",
+											"value": "{{cardNewDesc}}"
+										},
+										{
+											"key": "idLabels",
+											"value": "{{labelDEV}}"
+										},
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{idTarjeta}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TC3(Mover \"Tarjeta\" de un tablero)",
+					"item": [
+						{
+							"name": "Verificar mover Tarjeta 1 a la siguiente lista (In Progress)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = JSON.parse(responseBody)\r",
+											"\r",
+											"pm.test(\"La Tarjeta debería estar en la lista 'In Progress'\", function(){\r",
+											"    pm.expect(dataJson.idList).to.eql(listInProgress)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{PUT_Card}}/:id?idList={{listInProgress}}&key={{key}}&token={{token}}",
+									"host": [
+										"{{PUT_Card}}"
+									],
+									"path": [
+										":id"
+									],
+									"query": [
+										{
+											"key": "idList",
+											"value": "{{listInProgress}}"
+										},
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{idTarjeta}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar mover Tarjeta 1 a la última lista (Done)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = JSON.parse(responseBody)\r",
+											"\r",
+											"pm.test(\"La Tarjeta debería moverse de la lista 'In Progress' a la lista 'Done'\", function(){\r",
+											"    pm.expect(dataJson.idList).to.eql(listDone)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{PUT_Card}}/:id?idList={{listDone}}&key={{key}}&token={{token}}",
+									"host": [
+										"{{PUT_Card}}"
+									],
+									"path": [
+										":id"
+									],
+									"query": [
+										{
+											"key": "idList",
+											"value": "{{listDone}}"
+										},
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{idTarjeta}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TC4(Eliminar/Remover \"Tarjeta\" de un tablero)",
+					"item": [
+						{
+							"name": "Verificar archivar Tarjeta 1 del tablero",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{PUT_Card}}/:id?closed={{archivar}}&key={{key}}&token={{token}}",
+									"host": [
+										"{{PUT_Card}}"
+									],
+									"path": [
+										":id"
+									],
+									"query": [
+										{
+											"key": "closed",
+											"value": "{{archivar}}"
+										},
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{idTarjeta}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar dejar de archivar Tarjeta 1 del tablero si estaba anteriormente archivada",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{PUT_Card}}/:id?closed={{dejarArchivar}}&key={{key}}&token={{token}}",
+									"host": [
+										"{{PUT_Card}}"
+									],
+									"path": [
+										":id"
+									],
+									"query": [
+										{
+											"key": "closed",
+											"value": "{{dejarArchivar}}"
+										},
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{idTarjeta}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar Eliminar Tarjeta 1 del tablero",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = JSON.parse(responseBody);\r",
+											"pm.test(\"La tarjeta debería estar eliminada\",function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"    console.log(dataJson)\r",
+											"    /*let idTarjeta = pm.collectionVariables.get(\"idTarjeta\");\r",
+											"    pm.expect(dataJson.id).to.have.property(idTarjeta)*/\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{DEL_Card}}/:id?key={{key}}&token={{token}}",
+									"host": [
+										"{{DEL_Card}}"
+									],
+									"path": [
+										":id"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{idTarjeta}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar Eliminar Tarjeta 2 del tablero",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = JSON.parse(responseBody);\r",
+											"pm.test(\"La tarjeta debería estar eliminada\",function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"    console.log(dataJson)\r",
+											"    /*let idTarjeta = pm.collectionVariables.get(\"idTarjeta\");\r",
+											"    pm.expect(dataJson.id).to.have.property(idTarjeta)*/\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{DEL_Card}}/:id?key={{key}}&token={{token}}",
+									"host": [
+										"{{DEL_Card}}"
+									],
+									"path": [
+										":id"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{idTarjeta2}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GET_200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"getAllTypes = function (Json) {",
+					"    for (let i = 0; i < Json.results.length; i++) {",
+					"        let typeURL = pm.environment.get(\"mainURL\") + 'type/' + i;",
+					"//pm.sendRequest hace llamadas dentro de postman",
+					"        pm.sendRequest({ method: 'GET', url: typeURL }, function (err, response) {",
+					"            if (err) {",
+					"                console.error(err);",
+					"            } else {",
+					"                const responseBody = response.json();",
+					"                pm.expect(responseBody.pokemon.length).to.be.greaterThan(50);",
+					"            }",
+					"        });",
+					"    }",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"validateOK200 = function (pm) { pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); }); }",
+					"",
+					"validateOK201 = function (pm) { pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); }); }",
+					"",
+					"let jsonData = JSON.parse(responseBody);"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "higherThan",
+			"value": ""
+		},
+		{
+			"key": "lowerThan",
+			"value": ""
+		},
+		{
+			"key": "equalThan",
+			"value": ""
+		},
+		{
+			"key": "pokeId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "card1Name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "card2Name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "idTarjeta",
+			"value": ""
+		},
+		{
+			"key": "labelDEV",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "labelQA",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "cardNewName",
+			"value": ""
+		},
+		{
+			"key": "cardNewDesc",
+			"value": ""
+		},
+		{
+			"key": "idTarjeta2",
+			"value": ""
+		}
+	]
+}

@@ -1,0 +1,480 @@
+{
+	"info": {
+		"_postman_id": "635daa67-159e-466f-967f-94e16f598d18",
+		"name": "Regresion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27581475"
+	},
+	"item": [
+		{
+			"name": "PetStore",
+			"item": [
+				{
+					"name": "TC0-Añadir Pet a la Store",
+					"item": [
+						{
+							"name": "Añadir Pet",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"statusOK200(pm);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": {{petID}},\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"string\"\r\n  },\r\n  \"name\": \"{{petName}}\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_Base}}/pet",
+									"host": [
+										"{{URL_Base}}"
+									],
+									"path": [
+										"pet"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar adición Pet",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"statusOK200(pm);\r",
+											"const dataJson = pm.response.json()\r",
+											"\r",
+											"pm.test(\"Verificar nombre correcto\", function(){\r",
+											"    pm.expect(getPetName(pm)).to.eql(pm.collectionVariables.get(\"petName\"))\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Verificar id es el correcto\", function(){\r",
+											"    pm.expect(dataJson.id).to.eql(parseInt(pm.collectionVariables.get(\"petID\")))\r",
+											"    //pm.expect(getPetID(pm)).to.eql(parseInt(pm.collectionVariables.get(\"petID\")))\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_Base}}/pet/{{petID}}",
+									"host": [
+										"{{URL_Base}}"
+									],
+									"path": [
+										"pet",
+										"{{petID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TC1-Modificar Pet existente",
+					"item": [
+						{
+							"name": "Verificar adición Pet",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"statusOK200(pm);\r",
+											"const dataJson = pm.response.json()\r",
+											"\r",
+											"pm.test(\"Verificar nombre correcto\", function(){\r",
+											"    pm.expect(getPetName(pm)).to.eql(pm.collectionVariables.get(\"petName\"))\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Verificar id es el correcto\", function(){\r",
+											"    pm.expect(dataJson.id).to.eql(parseInt(pm.collectionVariables.get(\"petID\")))\r",
+											"    //pm.expect(getPetID(pm)).to.eql(parseInt(pm.collectionVariables.get(\"petID\")))\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"getStatus = function(){\r",
+											"    let petStatus = pm.collectionVariables.get(\"status\", pm.response.json().status)\r",
+											"    pm.collectionVariables.set(\"petStatus\", petStatus)\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_Base}}/pet/{{petID}}",
+									"host": [
+										"{{URL_Base}}"
+									],
+									"path": [
+										"pet",
+										"{{petID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar que se pueda modificar Status y Name de una Pet",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"statusOK200(pm);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"status\", \"sold\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": {{petID}},\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"string\"\r\n  },\r\n  \"name\": \"{{petNameModified}}\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"{{status}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL_Base}}/pet",
+									"host": [
+										"{{URL_Base}}"
+									],
+									"path": [
+										"pet"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar Pet modificada",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"statusOK200(pm);\r",
+											"const dataJson = pm.response.json()\r",
+											"let status = pm.collectionVariables.get(\"status\")\r",
+											"\r",
+											"pm.test(\"Verificar nombre se ha modificado\", function(){\r",
+											"    pm.expect(getPetName(pm)).to.eql(pm.collectionVariables.get(\"petNameModified\"))\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Verificar id sigue siendo el mismo\", function(){\r",
+											"    pm.expect(dataJson.id).to.eql(parseInt(pm.collectionVariables.get(\"petID\")))\r",
+											"    //pm.expect(getPetID(pm)).to.eql(parseInt(pm.collectionVariables.get(\"petID\")))\r",
+											"})\r",
+											"\r",
+											"pm.test(\"El status se ha modificado\", function(){\r",
+											"    pm.expect(pm.response.json().status).to.eql(status)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_Base}}/pet/{{petID}}",
+									"host": [
+										"{{URL_Base}}"
+									],
+									"path": [
+										"pet",
+										"{{petID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar que se ha movido Pet de Status",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"getCorrectPet = function(pm){\r",
+											"    let dataJson = pm.response.json();\r",
+											"    \r",
+											"    for(let i=0; i< dataJson.length ; i++){\r",
+											"        if(dataJson[i].id === parseInt(pm.collectionVariables.get(\"petID\"))){\r",
+											"            return dataJson[i].status;\r",
+											"        }\r",
+											"    }\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"statusOK200(pm);\r",
+											"let currentStatus = pm.collectionVariables.get(\"status\");\r",
+											"\r",
+											"pm.test(\"Pet esta en la lista Sold\", function(){\r",
+											"    pm.expect(getCorrectPet(pm)).to.eql(currentStatus);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_Base}}/pet/findByStatus?status={{status}}",
+									"host": [
+										"{{URL_Base}}"
+									],
+									"path": [
+										"pet",
+										"findByStatus"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "{{status}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TC2-Eliminar Pet",
+					"item": [
+						{
+							"name": "Verificar Pet",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"getCorrectPet = function(pm){\r",
+											"    let dataJson = pm.response.json();\r",
+											"    \r",
+											"    for(let i=0; i< dataJson.length ; i++){\r",
+											"        if(dataJson[i].id === parseInt(pm.collectionVariables.get(\"petID\"))){\r",
+											"            return dataJson[i].status;\r",
+											"        }\r",
+											"    }\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"statusOK200(pm);\r",
+											"const dataJson = pm.response.json()\r",
+											"\r",
+											"pm.test(\"Verificar id es el correcto\", function(){\r",
+											"    pm.expect(dataJson.id).to.eql(parseInt(pm.collectionVariables.get(\"petID\")))\r",
+											"    //pm.expect(getPetID(pm)).to.eql(parseInt(pm.collectionVariables.get(\"petID\")))\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_Base}}/pet/{{petID}}",
+									"host": [
+										"{{URL_Base}}"
+									],
+									"path": [
+										"pet",
+										"{{petID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar Eliminar Pet",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const dataJson = pm.response.json();\r",
+											"pm.test(\"Pet debería estar eliminada\",function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"    console.log(dataJson)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL_Base}}/pet/{{petID}}",
+									"host": [
+										"{{URL_Base}}"
+									],
+									"path": [
+										"pet",
+										"{{petID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar Pet Eliminada",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//To verify if Pet was deleted, we wait response 404 because don't exist\r",
+											"status404(pm);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL_Base}}/pet/{{petID}}",
+									"host": [
+										"{{URL_Base}}"
+									],
+									"path": [
+										"pet",
+										"{{petID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"statusOK200 = function(pm){",
+					"    pm.test(\"Status 200\", function(){",
+					"        pm.response.to.have.status(200)",
+					"    })",
+					"}",
+					"",
+					"getPetName = function(pm){",
+					"    let petName = pm.response.json().name;",
+					"    return petName;",
+					"}",
+					"",
+					"getPetID = function(pm){",
+					"    let petID = pm.response.json().id;",
+					"    return petID;",
+					"}",
+					"",
+					"status404 = function(pm){",
+					"    pm.test(\"Status 404\", function(){",
+					"        pm.response.to.have.status(404)",
+					"    })",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "petID",
+			"value": "2023",
+			"type": "string"
+		},
+		{
+			"key": "petName",
+			"value": "Luna",
+			"type": "string"
+		},
+		{
+			"key": "petNameModified",
+			"value": "Eustakio",
+			"type": "string"
+		},
+		{
+			"key": "status",
+			"value": ""
+		}
+	]
+}
