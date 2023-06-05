@@ -15,13 +15,13 @@ namespace Demoblaze.Auto.Template.WebPages
         {
         }
         protected override IWebElement ApartadosBusqueda => throw new System.NotImplementedException();
-        private IWebElement GetLaptop
-        {
-            get { return WebDriver.FindElementByXPath("//a[text()='MacBook air']"); }
+        private IWebElement GetLaptop (string laptopItemName)
+        {//MacBook air
+            { return WebDriver.FindElementByXPath("//a[text()='"+laptopItemName+"']"); }
         }
-        private IWebElement GetLaptop2
-        {
-            get { return WebDriver.FindElementByXPath("//a[text()='MacBook Pro']"); }
+        private IWebElement GetLaptop2 (string laptopItemName2)
+        {//MacBook Pro
+            { return WebDriver.FindElementByXPath("//a[text()='"+laptopItemName2+"']"); }
         }
         private IWebElement IdNext2Page
         {
@@ -30,9 +30,9 @@ namespace Demoblaze.Auto.Template.WebPages
         //añadir un artículo de la página actual al cart
         //volver a la página de portátiles, ir a la página siguiente
         //añadir una la`ptop diferente
-        public LaptopsPage GoToSelectedLaptop()
+        public LaptopsPage GoToSelectedLaptop(string laptopItemName)
         {
-            GetLaptop.Click();
+            GetLaptop(laptopItemName).Click();
             return this;
         }
         public LaptopsPage GoToSecondPage()
@@ -40,9 +40,9 @@ namespace Demoblaze.Auto.Template.WebPages
             IdNext2Page.Click();
             return this;
         }
-        public LaptopsPage GoToSecondSelectedLaptop()
+        public LaptopsPage GoToSecondSelectedLaptop(string laptopItemName2)
         {
-            GetLaptop2.Click();
+            GetLaptop2(laptopItemName2).Click();
             return this;
         }
 

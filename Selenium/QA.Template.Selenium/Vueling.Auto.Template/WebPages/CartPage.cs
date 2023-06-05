@@ -87,7 +87,7 @@ namespace Demoblaze.Auto.Template.WebPages
         }
         private IWebElement BtnDelete (string itemName)
         {
-            { return WebDriver.FindElementByXPath("//tr[@class='success']/td[text()='" + itemName + "']/../td/a"); }
+            { return WebDriver.FindElementByXPath($"//tr[@class='success']/td[text()='{itemName}']/../td/a"); }
         }
         public CartPage FillInputsPurchase()
         {
@@ -129,8 +129,7 @@ namespace Demoblaze.Auto.Template.WebPages
                 new WebDriverWait(WebDriver, TimeSpan.FromSeconds(WaitTimeout)).Until(CustomExpectedConditions.ElementIsVisible(SuccesfullPurchase_Logo));
                 Console.WriteLine("El elemento se muestra");
                 BtnOK.Click();
-                Thread.Sleep(2000);
-                WebDriver.Quit();
+                //WebDriver.Quit();
                 //BtnClose.Click();
             }
             else
@@ -143,6 +142,7 @@ namespace Demoblaze.Auto.Template.WebPages
         public CartPage DeleteProduct(string itemName)
         {
             BtnDelete(itemName).Click();
+            //check if the delete was good
             return this;
         }
     }

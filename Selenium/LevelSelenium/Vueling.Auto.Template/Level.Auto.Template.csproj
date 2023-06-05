@@ -9,8 +9,8 @@
     <ProjectGuid>{B71E1514-B8E9-43DE-A3E5-A40EB82A8178}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Demoblaze.Auto.Template</RootNamespace>
-    <AssemblyName>Demoblaze.Auto.Template</AssemblyName>
+    <RootNamespace>Level.Auto.Template</RootNamespace>
+    <AssemblyName>Level.Auto.Template</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -145,35 +145,12 @@
     <Compile Include="Test.Config\ObjectsTest.cs" />
     <Compile Include="Test.Data\Loaders\LoadScenarioTestCasesConfiguration.cs" />
     <Compile Include="Test.Data\Resources\Models\ScenarioTestCases.cs" />
-    <Compile Include="Tests\CompraProductosTest.cs" />
-    <Compile Include="Tests\DemoTest.cs" />
     <Compile Include="Tests\ExampleTests.cs" />
     <Compile Include="Tests\LevelTest.cs" />
-    <Compile Include="Tests\OpenCartTest.cs" />
     <Compile Include="Tests\TestBase.cs" />
     <Compile Include="WebPages.Base\CommonPage.cs" />
     <Compile Include="WebPages.Base\Page.cs" />
-    <Compile Include="WebPages\CartPage.cs" />
-    <Compile Include="WebPages\ContactPage.cs" />
-    <Compile Include="WebPages\GooglePage.cs" />
-    <Compile Include="WebPages\GoogleSearch.cs" />
-    <Compile Include="WebPages\HomePage.cs" />
-    <Compile Include="WebPages\LaptopsPage.cs" />
     <Compile Include="WebPages\LevelPage.cs" />
-    <Compile Include="WebPages\LoginPage.cs" />
-    <Compile Include="WebPages\MonitorsPage.cs" />
-    <Compile Include="WebPages\OC_CartPage.cs" />
-    <Compile Include="WebPages\OC_CategoryPage.cs" />
-    <Compile Include="WebPages\OC_ContactPage.cs" />
-    <Compile Include="WebPages\OC_DesktopPage.cs" />
-    <Compile Include="WebPages\OC_HomePage.cs" />
-    <Compile Include="WebPages\OC_LoginPage.cs" />
-    <Compile Include="WebPages\OC_PrivacyErrorPage.cs" />
-    <Compile Include="WebPages\OC_ProductPage.cs" />
-    <Compile Include="WebPages\OC_RegisterPage.cs" />
-    <Compile Include="WebPages\PhonesPage.cs" />
-    <Compile Include="WebPages\ProductPage.cs" />
-    <Compile Include="WebPages\SignUpPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

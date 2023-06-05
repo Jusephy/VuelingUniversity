@@ -5,12 +5,11 @@ using NUnit.Framework.Interfaces;
 using System;
 using System.IO;
 using System.Threading;
-using Demoblaze.Auto.Template.SetUp;
-using Demoblaze.Auto.Template.Webpages;
-using Demoblaze.Auto.Template.WebPages;
-using Demoblaze.Auto.Template.WebPages.Base;
+using Level.Auto.Template.SetUp;
+using Level.Auto.Template.WebPages;
+using Level.Auto.Template.WebPages.Base;
 
-namespace Demoblaze.Auto.Template.Tests
+namespace Level.Auto.Template.Tests
 {
     [SetUpFixture]
     [Parallelizable(ParallelScope.Fixtures)]
@@ -59,31 +58,8 @@ namespace Demoblaze.Auto.Template.Tests
     public class TestSetCleanBase
     {
         #region Definitions
-        protected GooglePage googlePage;
-        protected GoogleSearch googleSearch;
-        /*Demoblaze Tests*/
-        protected HomePage homePage;
-        protected ContactPage contactPage;
-        //protected AboutUsPage aboutusPage;
-        protected CartPage cartPage;
-        protected LoginPage loginPage;
-        protected SignUpPage signupPage;
-        protected PhonesPage phonesPage;
-        protected LaptopsPage laptopsPage;
-        protected MonitorsPage monitorsPage;
-        protected ProductPage productPage;
         /*Level Tests*/
         protected LevelPage levelPage;
-        /*--------------------------------------*/
-        /*opencart Tests*/
-        protected OC_PrivacyErrorPage oC_PrivacyErrorPage;
-        protected OC_HomePage oC_HomePage;
-        protected OC_ContactPage oC_ContactPage;
-        protected OC_RegisterPage oC_RegisterPage;
-        protected OC_LoginPage oC_LoginPage;
-        protected OC_CategoryPage oC_CategoryPage;
-        protected OC_CartPage oC_CartPage;
-        protected OC_ProductPage oC_ProductPage;
         /*--------------------------------------*/
         protected Page page;
         protected ISetUpWebDriver setUpWebDriver;
