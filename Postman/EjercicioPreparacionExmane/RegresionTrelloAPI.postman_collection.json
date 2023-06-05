@@ -1,0 +1,1418 @@
+{
+	"info": {
+		"_postman_id": "64330ab5-dc32-4f45-897f-529642a55639",
+		"name": "RegresionTrelloAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27581475"
+	},
+	"item": [
+		{
+			"name": "TC0-Crear \"Board\" de los tableros",
+			"item": [
+				{
+					"name": "Verificar creación Board en el Tablero",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//create a board with specific name\r",
+									"pm.collectionVariables.set(\"boardName\",\"EsAPI?\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody);\r",
+									"//get current board id\r",
+									"const idBoard = dataJson.id;\r",
+									"const boardName = dataJson.name;\r",
+									"\r",
+									"pm.collectionVariables.set(\"idBoard1\",idBoard);\r",
+									"\r",
+									"pm.test(\"Board creado\", function(){\r",
+									"    pm.expect(pm.collectionVariables.get(\"boardName\")).to.eql(boardName);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Board}}?name={{boardName}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Board}}"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{boardName}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC1-Modificar \"Board\"",
+			"item": [
+				{
+					"name": "Verificar que se pueden modificar los campos de un Board",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//update board name\r",
+									"pm.collectionVariables.set(\"updatedBoardName\",\"Tablero modificado\");\r",
+									"//new description Board\r",
+									"pm.collectionVariables.set(\"newBoardDesc\",\"El tablero se ha creado para realizar múltiples request\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Se ha modificado el nombre\",function(){\r",
+									"    pm.expect(dataJson.name).to.eql(pm.collectionVariables.get(\"updatedBoardName\"));\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Se ha modificado la descripción\",function(){\r",
+									"    pm.expect(dataJson.desc).to.eql(pm.collectionVariables.get(\"newBoardDesc\"));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Board}}/:id?name={{updatedBoardName}}&desc={{newBoardDesc}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Board}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{updatedBoardName}}"
+								},
+								{
+									"key": "desc",
+									"value": "{{newBoardDesc}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idBoard1}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC2-Eliminar \"Board\" de los Tableros",
+			"item": [
+				{
+					"name": "Verificar Eliminar Board de un tablero",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//check if the board was deleted\r",
+									"const dataJson = JSON.parse(responseBody);\r",
+									"console.log(responseBody);\r",
+									"\r",
+									"pm.test(\"El Board se eliminó correctamente\", function(){\r",
+									"    pm.expect(dataJson._value).to.eql(null)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Board}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Board}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idBoard1}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC3-Crear \"Listas\" en un Tablero",
+			"item": [
+				{
+					"name": "Verificar creación Lista en el Tablero",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody);\r",
+									"console.log(dataJson);\r",
+									"\r",
+									"let idList = dataJson.id\r",
+									"pm.collectionVariables.set(\"idList\", idList);\r",
+									"\r",
+									"pm.test(\"Verificar que se ha creado la lista\", function(){\r",
+									"    pm.response.to.have.status(200)\r",
+									"    pm.expect(idList).to.eql(pm.collectionVariables.get(\"idList\"))\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Verificar que el nombre de la lista es el correcto\", function(){\r",
+									"    pm.expect(dataJson.name).to.eql(pm.collectionVariables.get(\"listName\"))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//create a list with specific name\r",
+									"pm.collectionVariables.set(\"listName\",\"DEV\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL_List}}?name={{listName}}&idBoard={{idBoard1}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_List}}"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{listName}}"
+								},
+								{
+									"key": "idBoard",
+									"value": "{{idBoard1}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC4-Modificar \"Listas\" de un Tablero",
+			"item": [
+				{
+					"name": "Verificar creación de un nuevo Board en el Tablero",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//create a board with specific name\r",
+									"pm.collectionVariables.set(\"boardName2\",\"Mi segundo Tablero\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody);\r",
+									"//get current board id\r",
+									"const idBoard = dataJson.id;\r",
+									"const boardName2 = dataJson.name;\r",
+									"\r",
+									"pm.collectionVariables.set(\"idBoard2\",idBoard);\r",
+									"\r",
+									"pm.test(\"Board creado\", function(){\r",
+									"    pm.expect(pm.collectionVariables.get(\"boardName2\")).to.eql(boardName2);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Board}}?name={{boardName2}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Board}}"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{boardName2}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar que se pueden modificar los campos de una Lista",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"newListName\",\"Lista para el entorno de QA\");\r",
+									"pm.collectionVariables.set(\"currentPosList\", \"bottom\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Se ha modificado el nombre\",function(){\r",
+									"    pm.expect(dataJson.name).to.eql(pm.collectionVariables.get(\"newListName\"));\r",
+									"})\r",
+									"//mirar funcion que haga correctamente la verificación del cambio de posición\r",
+									"pm.test(\"Se ha modificado la posición\",function(){\r",
+									"    pm.expect(dataJson.pos).not.eql(pm.collectionVariables.get(\"currentPosList\"));\r",
+									"})\r",
+									"\r",
+									"let statusAchieved = dataJson.closed;\r",
+									"if(statusAchieved==true){\r",
+									"    pm.test(\"La lista está archivada\",function(){\r",
+									"        pm.expect(dataJson.closed).is.eql(true);\r",
+									"    })\r",
+									"}else{\r",
+									"    pm.test(\"La lista está desarchivada\", function(){\r",
+									"        pm.expect(dataJson.closed).is.eql(false);\r",
+									"    })\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{URL_List}}/:id?name={{newListName}}&pos={{currentPosList}}&closed={{dejarArchivar}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_List}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{newListName}}"
+								},
+								{
+									"key": "pos",
+									"value": "{{currentPosList}}"
+								},
+								{
+									"key": "closed",
+									"value": "{{archivar}}",
+									"description": "True for achieve the list",
+									"disabled": true
+								},
+								{
+									"key": "closed",
+									"value": "{{dejarArchivar}}",
+									"description": "False for unachieve the list"
+								},
+								{
+									"key": "idBoard",
+									"value": "{{idBoard2}}",
+									"description": "When we Update, can move  the list to another Board",
+									"disabled": true
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idList}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC5-Archivar \"Listas\" de un Tablero",
+			"item": [
+				{
+					"name": "Verificar Archivar/dejar de Archivar Lista de un Tablero",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody)\r",
+									"console.log(responseBody);\r",
+									"\r",
+									"pm.test(\"Tarjeta archivada correctamente\", function(){\r",
+									"    pm.expect(dataJson.closed).to.eql(true)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{URL_List}}{{idList}}?closed={{archivar}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_List}}{{idList}}"
+							],
+							"query": [
+								{
+									"key": "closed",
+									"value": "{{archivar}}",
+									"description": "True for achieve the list"
+								},
+								{
+									"key": "closed",
+									"value": "{{dejarArchivar}}",
+									"description": "False for unachieve the list",
+									"disabled": true
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar dejar de Archivar Lista de un Tablero",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody)\r",
+									"console.log(responseBody);\r",
+									"\r",
+									"pm.test(\"Tarjeta desarchivada correctamente\", function(){\r",
+									"    pm.expect(dataJson.closed).to.eql(false)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{URL_List}}{{idList}}?closed={{dejarArchivar}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_List}}{{idList}}"
+							],
+							"query": [
+								{
+									"key": "closed",
+									"value": "{{archivar}}",
+									"description": "True for achieve the list",
+									"disabled": true
+								},
+								{
+									"key": "closed",
+									"value": "{{dejarArchivar}}",
+									"description": "False for unachieve the list"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC6-Crear \"Tarjetas\" en un Tablero",
+			"item": [
+				{
+					"name": "Precondicion(Lista \"ToDo\" debe estar disponible)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody)\r",
+									"pm.test(\"Precondicion-> la lista 'ToDo' debe estar disponible\",function(){\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Precondicion-> la lista debe tener el nombre 'ToDo'\",function(){\r",
+									"    pm.expect(dataJson.name).to.eql(\"ToDo\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_List}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_List}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{listToDo}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Precondicion(Lista \"In Progress\" debe estar disponible) Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody)\r",
+									"pm.test(\"Precondicion-> la lista 'In Progress' debe estar disponible\",function(){\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Precondicion-> la lista debe tener el nombre 'In Progress'\",function(){\r",
+									"    pm.expect(dataJson.name).to.eql(\"In Progress\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_List}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_List}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{listInProgress}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Precondicion(Lista \"Done\" debe estar disponible) Copy 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody)\r",
+									"pm.test(\"Precondicion-> la lista 'Done' debe estar disponible\",function(){\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Precondicion-> la lista debe tener el nombre 'Done'\",function(){\r",
+									"    pm.expect(dataJson.name).to.eql(\"Done\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_List}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_List}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{listDone}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar creación Tarjeta 1 en la Lista del tablero, como primera tarjeta de la lista",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verificar que se haya creado la tarjeta en la lista ToDo\",function(){\r",
+									"    pm.response.to.have.status(200)\r",
+									"    pm.expect(dataJson.idList).to.eql(pm.environment.get(\"listToDo\"))\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.set(\"idTarjeta\",dataJson.id);\r",
+									"\r",
+									"pm.test(\"Verificar que el nombre de la tarjeta sea el ingreasdo anteriormente\",function(){\r",
+									"    pm.expect(dataJson.name).to.eql(pm.collectionVariables.get(\"card1Name\"))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Card}}?idList={{listToDo}}&name={{card1Name}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Card}}"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{listToDo}}"
+								},
+								{
+									"key": "name",
+									"value": "{{card1Name}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar creación Tarjeta 2 en la Lista del tablero, como segunda tarjeta de la lista, situada debajo de la primera",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verificar que se haya creado la tarjeta en la lista ToDo\",function(){\r",
+									"    pm.response.to.have.status(200)\r",
+									"    pm.expect(dataJson.idList).to.eql(pm.environment.get(\"listToDo\"))\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.set(\"idTarjeta2\",dataJson.id);\r",
+									"\r",
+									"pm.test(\"Verificar que el nombre de la tarjeta sea el ingreasdo anteriormente\",function(){\r",
+									"    pm.expect(dataJson.name).to.eql(pm.collectionVariables.get(\"card2Name\"))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Card}}?idList={{listToDo}}&name={{card2Name}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Card}}"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{listToDo}}"
+								},
+								{
+									"key": "name",
+									"value": "{{card2Name}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC7-Modificar \"Tarjetas\" de un tablero",
+			"item": [
+				{
+					"name": "Verificar que se pueden modificar los campos de una Tarjeta",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const newCardName = pm.variables.replaceIn(\"{{$randomCity}}\")\r",
+									"pm.collectionVariables.set(\"cardNewName\", newCardName)\r",
+									"\r",
+									"const newCardDesc = pm.variables.replaceIn(\"{{$randomPhrase}}\")\r",
+									"pm.collectionVariables.set(\"cardNewDesc\",newCardDesc)\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody)\r",
+									"const cardNewName = pm.collectionVariables.get(\"cardNewName\")\r",
+									"const cardNewDesc = pm.collectionVariables.get(\"cardNewDesc\")\r",
+									"const newLabel = pm.collectionVariables.get(\"labelDEV\")\r",
+									"const newLabel2 = pm.collectionVariables.get(\"labelQA\")\r",
+									"\r",
+									"pm.test(\"Nombre de la tarjeta debería estar modificado\",function(){\r",
+									"    pm.expect(dataJson.name).to.eql(cardNewName)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Descripción de la Tarjeta se debería modificar\", function(){\r",
+									"    pm.expect(dataJson.desc).to.eql(cardNewDesc)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"La Tarjeta debería tener una nueva etiqueta llamada 'QA'\", function(){\r",
+									"    pm.expect(dataJson.idLabels[0]).to.eql(newLabel2)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL_Card}}/:id?name={{cardNewName}}&desc={{cardNewDesc}}&idLabels={{labelQA}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Card}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{cardNewName}}"
+								},
+								{
+									"key": "desc",
+									"value": "{{cardNewDesc}}"
+								},
+								{
+									"key": "idLabels",
+									"value": "{{labelQA}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idTarjeta}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC8-Mover \"Tarjeta\" de un tablero",
+			"item": [
+				{
+					"name": "Verificar mover Tarjeta 1 a la siguiente lista (In Progress)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.test(\"La Tarjeta debería estar en la lista 'In Progress'\", function(){\r",
+									"    pm.expect(dataJson.idList).to.eql(listInProgress)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Card}}/:id?idList={{listInProgress}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Card}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{listInProgress}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idTarjeta}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar mover Tarjeta 1 a la última lista (Done)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.test(\"La Tarjeta debería moverse de la lista 'In Progress' a la lista 'Done'\", function(){\r",
+									"    pm.expect(dataJson.idList).to.eql(listDone)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Card}}/:id?idList={{listDone}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Card}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{listDone}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idTarjeta}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC9-Archivar/dejar de Archivar \"Tarjeta\" de un tablero",
+			"item": [
+				{
+					"name": "Verificar archivar Tarjeta 1 del tablero",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.test(\"Tarjeta archivada correctamente\", function(){\r",
+									"    pm.expect(dataJson.closed).to.eql(true);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Card}}/:id?closed={{archivar}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Card}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "closed",
+									"value": "{{archivar}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idTarjeta}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar dejar de archivar Tarjeta 1 del tablero si estaba anteriormente archivada",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody)\r",
+									"console.log(responseBody)\r",
+									"console.log(checkUnachieved(pm))\r",
+									"pm.test(\"Tarjeta desarchivada correctamente\", function(){\r",
+									"    pm.expect(dataJson.closed).to.eql(false)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Card}}/:id?closed={{dejarArchivar}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Card}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "closed",
+									"value": "{{dejarArchivar}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idTarjeta}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC10-Eliminar/Remover \"Tarjeta\" de un tablero",
+			"item": [
+				{
+					"name": "Verificar Eliminar Tarjeta 1 del tablero",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody);\r",
+									"pm.test(\"La tarjeta debería estar eliminada\",function(){\r",
+									"    pm.response.to.have.status(200)\r",
+									"    console.log(dataJson)\r",
+									"    /*let idTarjeta = pm.collectionVariables.get(\"idTarjeta\");\r",
+									"    pm.expect(dataJson.id).to.have.property(idTarjeta)*/\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Card}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Card}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idTarjeta}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar Eliminar Tarjeta 2 del tablero",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = JSON.parse(responseBody);\r",
+									"pm.test(\"La tarjeta debería estar eliminada\",function(){\r",
+									"    pm.response.to.have.status(200)\r",
+									"    console.log(dataJson)\r",
+									"    /*let idTarjeta = pm.collectionVariables.get(\"idTarjeta\");\r",
+									"    pm.expect(dataJson.id).to.have.property(idTarjeta)*/\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL_Card}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{URL_Card}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idTarjeta2}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"//let jsonData = JSON.parse(responseBody);",
+					"",
+					"statusOK200 = function(pm){",
+					"    pm.test(\"Status 200\", function(){",
+					"        pm.response.to.have.status(200)",
+					"    })",
+					"}",
+					"",
+					"status404 = function(pm){",
+					"    pm.test(\"Status 404\", function(){",
+					"        pm.response.to.have.status(404)",
+					"    })",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "higherThan",
+			"value": ""
+		},
+		{
+			"key": "lowerThan",
+			"value": ""
+		},
+		{
+			"key": "equalThan",
+			"value": ""
+		},
+		{
+			"key": "pokeId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "boardName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "updatedBoardName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "listName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "card1Name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "card2Name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "idTarjeta",
+			"value": ""
+		},
+		{
+			"key": "labelDEV",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "labelQA",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "cardNewName",
+			"value": ""
+		},
+		{
+			"key": "cardNewDesc",
+			"value": ""
+		},
+		{
+			"key": "idTarjeta2",
+			"value": ""
+		},
+		{
+			"key": "idBoardPruebaAPI",
+			"value": ""
+		},
+		{
+			"key": "idBoard1",
+			"value": ""
+		},
+		{
+			"key": "newBoardDesc",
+			"value": ""
+		},
+		{
+			"key": "idList",
+			"value": ""
+		},
+		{
+			"key": "newListName",
+			"value": ""
+		},
+		{
+			"key": "currentPosList",
+			"value": ""
+		},
+		{
+			"key": "boardName2",
+			"value": ""
+		},
+		{
+			"key": "idBoard2",
+			"value": ""
+		}
+	]
+}
