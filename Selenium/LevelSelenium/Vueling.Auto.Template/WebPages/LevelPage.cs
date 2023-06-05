@@ -172,6 +172,7 @@ namespace Level.Auto.Template.WebPages
         }
         public LevelPage GetAvailableDay()
         {
+
             return this;
         }
         public LevelPage DepartureDate(int departureDayPicked)
