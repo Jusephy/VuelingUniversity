@@ -47,6 +47,10 @@ namespace OpenCart.Auto.Template.WebPages
         {
             get { return WebDriver.FindElementByXPath("//ul[@class='list-inline']/li[@class='dropdown']"); }
         }
+        private IWebElement DropdownLoginRegisterOpened
+        {
+            get { return WebDriver.FindElementByXPath("//ul[@class='list-inline']/li[@class='dropdown open']"); }
+        }
         private IWebElement DropdownOpenedLoginRegister
         {
             get { return WebDriver.FindElementByXPath("//ul[@class='list-inline']/li[@class='dropdown open']"); }
@@ -131,6 +135,10 @@ namespace OpenCart.Auto.Template.WebPages
         {
             get { return WebDriver.FindElementByXPath("//nav[@id='menu']//a[text()='Cameras']"); }
         }
+        private IWebElement DropdownMP3
+        {
+            get { return WebDriver.FindElementByXPath("//a[text()='MP3 Players']/../a"); }
+        }
         private IWebElement BtnMP3
         {
             get { return WebDriver.FindElementByXPath("//nav[@id='menu']//a[text()='MP3 Players']/..//a[@class='see-all']"); }
@@ -139,6 +147,11 @@ namespace OpenCart.Auto.Template.WebPages
         private IWebElement GetSponsor (string sponsor)
         {
             { return WebDriver.FindElementByXPath($"//div[@class='swiper-slide text-center']//img[@alt='{sponsor}']"); }
+        }
+        //product
+        private By ProductSelected (string productName)
+        {
+            { return By.XPath($"//a[text()='{productName}']"); }
         }
         //functions elements nav top
         public HomePage ClickCurrencyExchange(string selectedCurrency)
@@ -151,9 +164,13 @@ namespace OpenCart.Auto.Template.WebPages
             {
                 BtnSterlinePound.Click();
             }
-            else
+            else if(selectedCurrency=="USD")
             {
                 BtnDollar.Click();
+            }
+            else
+            {
+                Assert.Fail("The currency selected is out the parameters");
             }
             return this;
         }
@@ -223,12 +240,19 @@ namespace OpenCart.Auto.Template.WebPages
         }
         public HomePage ClickMP3()
         {
+            DropdownMP3.Click();
             BtnMP3.Click();
             return this;
         }
         public HomePage CheckUserRegisteredLoginSuccesfull()
         {
             DropdownLoginRegister.Click(); new WebDriverWait(WebDriver, TimeSpan.FromSeconds(WaitTimeout)).Until(CustomExpectedConditions.ElementIsVisible(Logout));
+            DropdownLoginRegisterOpened.Click();
+            return this;
+        }
+        public HomePage CheckProductAddedWishList(string productName)
+        {
+            new WebDriverWait(WebDriver, TimeSpan.FromSeconds(WaitTimeout)).Until(CustomExpectedConditions.ElementIsVisible(ProductSelected(productName)));
             return this;
         }
         public HomePage CheckExistsSponsor(string sponsor)

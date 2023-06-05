@@ -145,16 +145,11 @@
     <Compile Include="Test.Config\ObjectsTest.cs" />
     <Compile Include="Test.Data\Loaders\LoadScenarioTestCasesConfiguration.cs" />
     <Compile Include="Test.Data\Resources\Models\ScenarioTestCases.cs" />
-    <Compile Include="Tests\ExampleTests.cs" />
-    <Compile Include="Tests\LevelTest.cs" />
     <Compile Include="Tests\OpenCartTest.cs" />
     <Compile Include="Tests\TestBase.cs" />
     <Compile Include="WebPages.Base\CommonPage.cs" />
     <Compile Include="WebPages.Base\Page.cs" />
     <Compile Include="WebPages\CheckoutPage.cs" />
-    <Compile Include="WebPages\GooglePage.cs" />
-    <Compile Include="WebPages\GoogleSearch.cs" />
-    <Compile Include="WebPages\LevelPage.cs" />
     <Compile Include="WebPages\CartPage.cs" />
     <Compile Include="WebPages\CategoryPage.cs" />
     <Compile Include="WebPages\ContactPage.cs" />

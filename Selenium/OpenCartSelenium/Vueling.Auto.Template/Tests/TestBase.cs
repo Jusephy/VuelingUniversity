@@ -6,7 +6,6 @@ using System;
 using System.IO;
 using System.Threading;
 using OpenCart.Auto.Template.SetUp;
-using OpenCart.Auto.Template.Webpages;
 using OpenCart.Auto.Template.WebPages;
 using OpenCart.Auto.Template.WebPages.Base;
 
@@ -59,11 +58,6 @@ namespace OpenCart.Auto.Template.Tests
     public class TestSetCleanBase
     {
         #region Definitions
-        protected GooglePage googlePage;
-        protected GoogleSearch googleSearch;
-        /*Level Tests*/
-        protected LevelPage levelPage;
-        /*--------------------------------------*/
         /*opencart Tests*/
         protected PrivacyErrorPage privacyErrorPage;
         protected HomePage homePage;

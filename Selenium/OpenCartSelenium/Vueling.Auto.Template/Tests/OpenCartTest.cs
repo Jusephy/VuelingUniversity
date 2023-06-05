@@ -67,17 +67,31 @@ namespace OpenCart.Auto.Template.Tests
             contactPage.ContactSuccesfully();
         }
         [TestCase]
+        public void ExchangeCurrency() 
+        {
+            homePage = new HomePage(setUpWebDriver);
+            privacyErrorPage = new PrivacyErrorPage(setUpWebDriver);
+
+            //select between EUR, GBP and USD
+            string selectedCurrency= "EUR";
+
+            privacyErrorPage.GoToPage();
+            homePage.ClickCurrencyExchange(selectedCurrency);
+        }
+        [TestCase]
         public void AddProductToWishList()
         {
             homePage = new HomePage(setUpWebDriver);
             categoryPage = new CategoryPage(setUpWebDriver);
             
-            string productName = "iPhone";
+            string productName = "iPod Classic";
 
             //precondición--> Estar logeado
             LoginUser();
-            homePage.ClickSoftware();
+            homePage.ClickMP3();
             categoryPage.AddProductToWishList(productName);
+            homePage.ClickWishList();
+            homePage.CheckProductAddedWishList(productName);
         }
         [TestCase]
         public void AddProductToCart()
