@@ -182,9 +182,9 @@ namespace Level.Auto.Template.WebPages
             BtnDayFirstMonthPicker(departureDayPicked).Click();
             return this;
         }
-        public LevelPage ReturnDate(int returnDayPicked)
+        public LevelPage ReturnDate(Nullable <int> returnDayPicked)
         {
-            BtnDaySecondMonthPicker(returnDayPicked).Click();
+            BtnDaySecondMonthPicker((int)returnDayPicked).Click();
             return this;
         }
         public LevelPage AddADT(int numAdtClicks)

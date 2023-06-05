@@ -63,8 +63,8 @@ namespace Level.Auto.Template.Tests
             string originCityName = "Barcelona";
             string destinationCityName = "Santiago de Chile";
             string originMonth= "septiembre";
-            int departureDayPicked = 17;
-            int returnDayPicked = 28;
+            int departureDayPicked = 2;
+            int returnDayPicked = departureDayPicked+11;
             int numAdtClicks = 3;
             int numChdClicks = 1;
             int numBbyClicks = 1;

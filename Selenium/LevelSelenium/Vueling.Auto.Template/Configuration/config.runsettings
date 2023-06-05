@@ -27,8 +27,8 @@
     pageLoadTimeout: Time to wait in some pages.
     browser: Type of Browser you want to use.
     -->
-    <!--<Parameter name="targetUrl" value="https://flylevel.com"/>-->
-    <Parameter name="targetUrl" value="https://opencart.abstracta.us/index.php?"/>
+    <!--<Parameter name="targetUrl" value="https://opencart.abstracta.us/index.php?"/>-->
+    <Parameter name="targetUrl" value="https://flylevel.com"/>
     <Parameter name="pageLoadTimeout" value="110" />
     <Parameter name="waitTimeout" value="25" />
     <Parameter name="paymentTimeout" value="70" />
