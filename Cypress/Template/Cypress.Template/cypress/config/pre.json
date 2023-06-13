@@ -1,0 +1,7 @@
+{
+    "baseUrl": "https://www.demoblaze.com/",
+	"env": {
+		"usersEmail": "eric.romero@col.vueling.com",
+		"recordLocatorsList": "PNR-GENERATOR-PRE.postman_environment.json"
+    }
+}
