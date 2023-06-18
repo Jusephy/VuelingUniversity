@@ -1,4 +1,4 @@
-QA_Automated_Lab/
-UnitTestProject1/
-Postman/OliverCollection/
+/QA_Automated_Lab/
+/UnitTestProject1/
+/Postman/OliverCollection/
 .vscode/
