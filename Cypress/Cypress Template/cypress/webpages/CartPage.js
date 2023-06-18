@@ -29,9 +29,7 @@ export class CartPage {
     this.orderModal().should("satisfy", Cypress.dom.isVisible);
     cy.fixture("data").then((dataForm) => {
       this.name().type(dataForm[index].name, { delay: 5 }, { force: true });
-      this.country().type(dataForm[index].country),
-        { delay: 5 },
-        { force: true };
+      this.country().type(dataForm[index].country), { delay: 5 }, { force: true };
       this.city().type(dataForm[index].city, { delay: 5 }, { force: true });
       this.card().type(dataForm[index].card, { delay: 5 }, { force: true });
       this.month().type(dataForm[index].month, { delay: 5 }, { force: true });

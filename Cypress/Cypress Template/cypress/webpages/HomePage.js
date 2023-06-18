@@ -9,10 +9,7 @@ export class HomePage {
   logOutBtn = () => cy.get("#logout2");
   welcomeUser = () => cy.get("#nameofuser");
   cartBtn = () => cy.get("#cartur");
-  category = (categorySelected) =>
-    cy.get(`[onclick="byCat('${categorySelected}')"]`);
-  laptopsCategory = () => cy.get(`[onclick="byCat('notebook')"]`);
-  monitorsCategory = () => cy.get(`[onclick="byCat('monitor')"]`);
+  category = (categorySelected) => cy.get(`[onclick="byCat('${categorySelected}')"]`);
 
   /*Functions*/
   //Makes click and assert if its visible

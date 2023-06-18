@@ -8,7 +8,7 @@ describe("TemplateTest", () => {
   // * let/const for all the tests
 
   //the categories can be 'phone', 'notebook', 'monitor'
-  const categorySelected = "phone";
+  const categorySelected = "phone"; /* Look to make with enum */
   const index = 1;
 
   const homePage = new HomePage(); // Object of the webpage
