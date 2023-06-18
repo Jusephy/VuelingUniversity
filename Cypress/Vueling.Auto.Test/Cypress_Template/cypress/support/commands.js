@@ -38,6 +38,48 @@ Cypress.Commands.add("getId", (id) => {
   cy.get(`#${id}`);
 });
 
+/* Cypress.Commands.add('clickUntilTextNotEqual', (elementSelector, textToMatch) => {
+  cy.get(elementSelector).should('contain', textToMatch).click().then(() => {
+    cy.get(elementSelector).should('not.contain', textToMatch).then(($element) => {
+      if ($element.text() !== textToMatch) {
+        cy.clickUntilTextNotEqual(elementSelector, textToMatch);
+      }
+    });
+  });
+}); 
+
+Cypress.Commands.add('clickUntilTextNotEqual', (elementSelector, targetSelector, textToMatch) => {
+  const checkTextAndClick = ($element) => {
+    if ($element.text() != textToMatch) {
+      cy.get(targetSelector).click().then(() => {
+        cy.get(elementSelector).should('not.have.text', textToMatch).then(checkTextAndClick);
+      });
+    }
+    cy.get(elementSelector).should('contain', textToMatch).then(checkTextAndClick);
+  };
+});*/
+
+Cypress.Commands.add('clickUntilTextEquals', (elementSelector, targetSelector, textToMatch, maxAttempts = 10) => {
+  let attempts = 0;
+
+  const checkTextAndClick = () => {
+    attempts++;
+
+    if (attempts > maxAttempts) {
+      throw new Error(`Exceeded maximum attempts (${maxAttempts})`);
+    }
+
+    cy.get(elementSelector).should('have.text', textToMatch).then(() => {
+      cy.get(targetSelector).click().then(checkTextAndClick);
+    });
+  };
+  /*if(elementSelector.text!=textToMatch){
+    checkTextAndClick();
+  }*/
+
+  cy.get(elementSelector).should('not.have.text', textToMatch).then(checkTextAndClick);
+});
+
 Cypress.Commands.add("error", (text) => {
   throw new Error(text);
 });
